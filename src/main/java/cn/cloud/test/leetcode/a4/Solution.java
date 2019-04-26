@@ -13,6 +13,7 @@ package cn.cloud.test.leetcode.a4;
  * nums2 = [3, 4]
  * 则中位数是 (2 + 3)/2 = 2.5
  *
+ * 解题点：归并排序
  * @author liangqiang
  * @date 2019/4/25 1:39 PM
  */
