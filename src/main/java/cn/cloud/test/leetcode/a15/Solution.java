@@ -27,45 +27,57 @@ public class Solution {
             return new ArrayList<>();
         }
         Arrays.sort(nums);
+        // 如果第所有数都大于0 或者所有树都小于0 则无解
         if (nums[0] > 0 || nums[length - 1] < 0) {
             return new ArrayList<>();
         }
+        // 从第一个开始循环
+        // 用两个指针 一个在紧挨着i 另一个放在末尾 然后向内查找满足条件的树
         for (int i = 0; i < length; i++) {
+            // 因为需要三个指针，所以最后一个查找的数应该是倒数第三个
             if (i >= length - 2) {
                 break;
             }
             int ri = nums[i];
+            // 如果当前数已经大于0 则代表后面都是大于0的数 后面不会有解
             if (ri > 0) {
                 break;
             }
-
+            // 如果当前树和前一个数一样 可以直接跳过，因为解是一样的
             if (i > 0 && nums[i - 1] == ri) {
                 continue;
             }
 
             int j = i + 1;
             int k = length - 1;
+            // 由两端向内查找 小于等于i的位置不用找，因为已经匹配过了
             while (j < k) {
+                // 如果j+i就已经大于0，代表j一定大于0 这时候后面已经无解 不用在匹配了
                 if (nums[j] + nums[i] > 0) {
                     break;
                 }
                 int re = nums[j] + nums[k] + ri;
                 if (re == 0) {
+                    // 满足解 保存结果
                     newList(ri, nums[j], nums[k], result);
+                    // 如果当前数和前一个一样 则直接跳过，因为已经匹配过
                     while (j < k && nums[k - 1] == nums[k]) {
                         k--;
                     }
+                    // 如果当前数和前一个一样 则直接跳过，因为已经匹配过
                     while (j < k && nums[j + 1] == nums[j]) {
                         j++;
                     }
                     j++;
                     k--;
                 } else if (re > 0) {
+                    // 如果和大于0 则把k向左移动，减小值，如果值一样也直接跳过
                     while (j < k && nums[k - 1] == nums[k]) {
                         k--;
                     }
                     k--;
                 } else {
+                    // 如果和小于0 则把j向右移动，增大值，如果值一样也直接跳过
                     while (j < k && nums[j + 1] == nums[j]) {
                         j++;
                     }
@@ -85,8 +97,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        int[] nu = {
-            -2, 0, 0, 2, 2};
+        int[] nu = {-2, 0, 0, 2, 2};
         System.out.println(new Solution().threeSum(nu));
     }
 }
